@@ -1,13 +1,24 @@
 import "./App.css";
-import ItemsListContainer from "./components/ItemListContainer";
-import Navbar from "./components/NavBar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./components/pages/Home";
+import Navbar from "./components/ui/NavBar";
+import ProductDetail from "./components/products/ProductDetail";
+import Cart from "./components/cart/Cart";
+import NotFound from "./components/pages/NotFound";
+import Categories from "./components/pages/Categories";
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <Navbar />
-      <ItemsListContainer message="Hola Mundo" />
-    </>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/categories" element={<Categories />} />
+        <Route path="/product/:productId" element={<ProductDetail />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
