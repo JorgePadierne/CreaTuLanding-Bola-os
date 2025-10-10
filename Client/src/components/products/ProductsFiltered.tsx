@@ -16,14 +16,12 @@ function ProductFilters({ onCategoryChange }: ProductFiltersProps) {
     extendedMockProductsData.products as Product[]
   );
 
-  // Función para manejar la selección
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     onCategoryChange(event.target.value);
   };
 
   return (
     <div className="flex justify-start items-center py-6 px-4">
-      {/* Contenedor relativo para posicionar el icono de chevron */}
       <div className="relative inline-block text-left">
         <label htmlFor="filtros" className="sr-only">
           Filtrar por Categoría

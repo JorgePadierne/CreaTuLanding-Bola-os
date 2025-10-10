@@ -1,17 +1,7 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-// -----------------------------------------------------------
-// TIPOS (Asume esta estructura de Product para tu mock)
-// -----------------------------------------------------------
-interface Product {
-  id: number | string;
-  name: string;
-  price: number;
-  imageUrl: string;
-  // Añade otros campos si los necesitas para la búsqueda
-}
+import type { Product } from "../products/typeProducts";
 
 interface NavInputProps {
   allProducts: Product[];

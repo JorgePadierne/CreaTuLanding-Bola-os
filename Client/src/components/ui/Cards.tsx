@@ -11,7 +11,7 @@ function Cards({ img, productName, price, productId }: Props) {
   return (
     <Link
       to={`/product/${productId}`}
-      className="group relative block overflow-hidden max-w-2xs min-h-140 rounded-lg border border-gray-100 bg-white shadow-md hocer:shadow-xl transition-shadow m-4"
+      className="group relative block overflow-hidden max-w-2xs min-h-100 rounded-lg border border-gray-100 bg-white shadow-md hover:shadow-xl transition-shadow m-4"
     >
       <button className="absolute end-4 top-4 z-10 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75">
         <span className="sr-only">Wishlist</span>
@@ -49,12 +49,6 @@ function Cards({ img, productName, price, productId }: Props) {
         </h3>
 
         <p className="mt-1.5 text-sm text-gray-700">${price}</p>
-
-        <form className="mt-4">
-          <button className="block w-full rounded-sm bg-indigo-600 p-4 text-sm text-white font-medium transition hover:scale-105 focus:scale-95">
-            Add to Cart
-          </button>
-        </form>
       </div>
     </Link>
   );

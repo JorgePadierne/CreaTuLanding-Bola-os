@@ -1,14 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import extendedMockProductsData from "./mocks";
+import type { Product } from "./typeProducts";
+import { useCartContext } from "../../hooks/useCartContext";
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  imageUrl: string;
-}
 const fakeFetchProduct = (id: string): Promise<Product | undefined> => {
   const numericId = parseInt(id);
 
@@ -27,6 +22,16 @@ export default function ProductDetail() {
   const { productId } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const [addedToCart, setAddedToCart] = useState(false);
+  const { addItem } = useCartContext();
+
+  const handleAddToCart = () => {
+    if (product) {
+      addItem(product);
+      setAddedToCart(true);
+      setTimeout(() => setAddedToCart(false), 2000);
+    }
+  };
 
   useEffect(() => {
     if (productId) {
@@ -36,8 +41,7 @@ export default function ProductDetail() {
         .then((data) => {
           setProduct(data || null);
         })
-        .catch((error) => {
-          console.error("Error al buscar el producto:", error);
+        .catch(() => {
           setProduct(null);
         })
         .finally(() => {
@@ -49,7 +53,7 @@ export default function ProductDetail() {
   if (loading) {
     return (
       <div className="p-10 text-center text-indigo-600 text-xl font-medium">
-        Cargando detalles del producto... ⏳
+        Cargando detalles del producto... <span className="animate-pulse">⏰</span>
       </div>
     );
   }
@@ -84,17 +88,40 @@ export default function ProductDetail() {
           <p className="text-3xl tracking-tight text-gray-900 mt-3">
             ${price.toFixed(2)}
           </p>
-
           <div className="mt-6">
             <h3 className="sr-only">Descripción</h3>
             <p className="text-gray-600 leading-relaxed">{description}</p>
           </div>
-          <div className="mt-8">
+          <div className="mt-8 space-y-4">
             <button
               type="button"
-              className="w-full flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 transition duration-200 shadow-lg"
+              onClick={handleAddToCart}
+              className={`w-full flex items-center justify-center gap-2 rounded-md border border-transparent px-8 py-3 text-base font-medium text-white transition-all duration-200 shadow-lg ${
+                addedToCart
+                  ? "bg-green-600 hover:bg-green-700"
+                  : "bg-indigo-600 hover:bg-indigo-700"
+              }`}
             >
-              Añadir al Carrito
+              {addedToCart ? (
+                <>
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  ¡Añadido al Carrito!
+                </>
+              ) : (
+                "Añadir al Carrito"
+              )}
             </button>
           </div>
         </div>
