@@ -5,7 +5,7 @@ import Navbar from "./components/ui/NavBar";
 import ProductDetail from "./components/products/ProductDetail";
 import Cart from "./components/cart/Cart";
 import NotFound from "./components/pages/NotFound";
-import Categories from "./components/pages/Categories";
+import Products from "./components/pages/Products";
 import { CartProvider } from "./context/CartContext";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/categories" element={<Categories />} />
+          <Route path="/products/:type" element={<Products />} />
           <Route path="/product/:productId" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="*" element={<NotFound />} />

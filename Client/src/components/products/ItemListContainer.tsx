@@ -1,35 +1,36 @@
 import Cards from "../ui/Cards";
-import mockProductsData from "./mocks";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import type { Product } from "./typeProducts";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../services/firebase";
 
 interface ItemListContainerProps {
   cantidad?: number;
-  category?: string;
 }
-
-const fakeFetchProducts = (): Promise<Product[]> => {
-  return new Promise((resolve) => {
-    const delay = Math.random() * 1000 + 1000;
-
-    setTimeout(() => {
-      resolve(mockProductsData.products as Product[]);
-    }, delay);
-  });
-};
 
 export default function ItemListContainer({
   cantidad = 0,
-  category = "All",
 }: ItemListContainerProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const { type } = useParams<{ type: string }>();
 
   useEffect(() => {
     setLoading(true);
-    fakeFetchProducts()
+    const shouldFilter = Boolean(type && type.toLowerCase() !== "all");
+    const baseCollection = collection(db, "products");
+    const prodCollection = shouldFilter
+      ? query(baseCollection, where("category", "==", String(type)))
+      : baseCollection;
+
+    getDocs(prodCollection)
       .then((data) => {
-        setProducts(data);
+        const dataProducts = data.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as Omit<Product, "id">),
+        }));
+        setProducts(dataProducts as Product[]);
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
@@ -37,7 +38,7 @@ export default function ItemListContainer({
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [type]);
 
   if (loading) {
     return (
@@ -47,28 +48,12 @@ export default function ItemListContainer({
     );
   }
 
-  const filteredByCategory =
-    category && category !== "All"
-      ? products.filter((product) => product.category === category)
-      : products;
-
-  const productsToDisplay =
-    cantidad && cantidad > 0
-      ? filteredByCategory.slice(0, cantidad)
-      : filteredByCategory;
-
-  if (productsToDisplay.length === 0) {
-    return (
-      <div className="text-center py-10 text-gray-500">
-        No se encontraron productos en esta categoría.
-      </div>
-    );
-  }
+  const displayedProducts = cantidad ? products.slice(0, cantidad) : products;
 
   return (
     <div className="container mx-auto p-4 sm:p-6">
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {productsToDisplay.map((product: Product) => (
+        {displayedProducts.map((product: Product) => (
           <div key={product.id} className="flex justify-center">
             <Cards
               productId={product.id}

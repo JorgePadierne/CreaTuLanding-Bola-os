@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 type Props = {
-  productId?: number;
+  productId?: string;
   img: string;
   productName: string;
   price: number;

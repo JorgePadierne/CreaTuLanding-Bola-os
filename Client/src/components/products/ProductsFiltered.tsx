@@ -1,23 +1,33 @@
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import extendedMockProductsData from "../products/mocks";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import type { Product } from "../products/typeProducts";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../services/firebase";
 
 const getUniqueCategories = (products: Product[]): string[] => {
   const categories = products.map((product) => product.category);
   return ["All", ...Array.from(new Set(categories))];
 };
 
-interface ProductFiltersProps {
-  onCategoryChange: (category: string) => void;
-}
+function ProductFilters() {
+  const [categories, setCategories] = useState<string[]>(["All"]);
+  const navigate = useNavigate();
+  const { type } = useParams<{ type: string }>();
 
-function ProductFilters({ onCategoryChange }: ProductFiltersProps) {
-  const uniqueCategories = getUniqueCategories(
-    extendedMockProductsData.products as Product[]
-  );
+  useEffect(() => {
+    getDocs(collection(db, "products")).then((snapshot) => {
+      const products = snapshot.docs.map((d) => ({
+        id: d.id,
+        ...(d.data() as Omit<Product, "id">),
+      })) as Product[];
+      setCategories(getUniqueCategories(products));
+    });
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    onCategoryChange(event.target.value);
+    const selected = event.target.value;
+    navigate(`/products/${selected}`);
   };
 
   return (
@@ -48,7 +58,7 @@ function ProductFilters({ onCategoryChange }: ProductFiltersProps) {
             cursor-pointer
           "
         >
-          {uniqueCategories.map((category: string) => (
+          {categories.map((category: string) => (
             <option key={category} value={category}>
               {category}
             </option>

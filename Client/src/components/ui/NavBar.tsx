@@ -7,7 +7,10 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import CartWidget from "../cart/CartWidget";
 import { NavLink } from "react-router-dom";
 import NavInput from "./NavInput";
-import extendedMockProductsData from "../products/mocks"; // 💡 CORREGIDA LA RUTA RELATIVA AL MOVER EL MOCK
+import { useEffect, useState } from "react";
+import type { Product } from "../products/typeProducts";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../services/firebase";
 
 interface NavItem {
   name: string;
@@ -16,7 +19,7 @@ interface NavItem {
 
 const navigation: NavItem[] = [
   { name: "Home", href: "/" },
-  { name: "Categorias", href: "/categories" },
+  { name: "Productos", href: "/products/all" },
 ];
 
 function classNames(...classes: (string | undefined | false | null)[]): string {
@@ -24,8 +27,17 @@ function classNames(...classes: (string | undefined | false | null)[]): string {
 }
 
 function NavBar() {
-  // 💡 Usamos los productos del mock para la búsqueda
-  const allProducts = extendedMockProductsData.products as any[];
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    getDocs(collection(db, "products")).then((snapshot) => {
+      const products = snapshot.docs.map((d) => ({
+        id: d.id,
+        ...(d.data() as Omit<Product, "id">),
+      })) as Product[];
+      setAllProducts(products);
+    });
+  }, []);
 
   return (
     <Disclosure as="nav" className="relative bg-white py-3 shadow-md">

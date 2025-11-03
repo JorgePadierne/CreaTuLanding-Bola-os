@@ -1,22 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import extendedMockProductsData from "./mocks";
 import type { Product } from "./typeProducts";
 import { useCartContext } from "../../hooks/useCartContext";
-
-const fakeFetchProduct = (id: string): Promise<Product | undefined> => {
-  const numericId = parseInt(id);
-
-  const foundProduct = extendedMockProductsData.products.find(
-    (p: Product) => p.id === numericId
-  ) as Product | undefined;
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(foundProduct);
-    }, 800);
-  });
-};
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../services/firebase";
 
 export default function ProductDetail() {
   const { productId } = useParams();
@@ -37,9 +24,14 @@ export default function ProductDetail() {
     if (productId) {
       setLoading(true);
 
-      fakeFetchProduct(productId)
-        .then((data) => {
-          setProduct(data || null);
+      getDoc(doc(db, "products", productId))
+        .then((snapshot) => {
+          if (!snapshot.exists()) {
+            setProduct(null);
+            return;
+          }
+          const data = snapshot.data() as Omit<Product, "id">;
+          setProduct({ id: snapshot.id, ...data } as Product);
         })
         .catch(() => {
           setProduct(null);
