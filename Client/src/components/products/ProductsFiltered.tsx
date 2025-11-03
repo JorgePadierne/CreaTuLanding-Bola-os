@@ -1,6 +1,6 @@
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import type { Product } from "../products/typeProducts";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../services/firebase";
@@ -13,7 +13,6 @@ const getUniqueCategories = (products: Product[]): string[] => {
 function ProductFilters() {
   const [categories, setCategories] = useState<string[]>(["All"]);
   const navigate = useNavigate();
-  const { type } = useParams<{ type: string }>();
 
   useEffect(() => {
     getDocs(collection(db, "products")).then((snapshot) => {

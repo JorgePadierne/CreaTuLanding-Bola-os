@@ -10,6 +10,7 @@ export interface CartContextType {
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
+  canCheckout: boolean;
 }
 
 // Inicializa el contexto con un valor que cumple la interfaz
