@@ -1,9 +1,9 @@
 {
   "version": 2,
-  "name": "creatulanding-bolanos",
+  "name": "creatulanding-bolanos-client",
   "builds": [
     {
-      "src": "Client/package.json",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": { "distDir": "dist" }
     }
@@ -13,5 +13,6 @@
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
+
 
 
