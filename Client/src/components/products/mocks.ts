@@ -2,23 +2,6 @@ const extendedMockProductsData = {
   products: [
     // Ropa y Accesorios
     {
-      id: 201,
-      name: "Sudadera 'Vitra' Edición Limitada",
-      description:
-        "Cómoda sudadera de algodón orgánico, ideal para cualquier clima. Diseño minimalista.",
-      price: 59.99,
-      currency: "EUR",
-      // URL: Muestra el nombre en un fondo gris suave
-      imageUrl:
-        "https://placehold.co/400x300/EAEAEA/000000?text=SUDADERA+VITRA",
-      category: "Ropa",
-      stock: 15,
-      rating: 4.5,
-      isNew: true,
-      isDiscounted: false,
-    },
-    {
-      id: 202,
       name: "Mochila Urbana Antirrobo (Modelo Pro)",
       description:
         "Resistente al agua con compartimento oculto para laptop de 15 pulgadas.",
@@ -34,7 +17,6 @@ const extendedMockProductsData = {
       oldPrice: 85.0,
     },
     {
-      id: 203,
       name: "Gafas de Sol Polarizadas 'Horizon'",
       description:
         "Montura ligera de bambú con protección UV400. Incluye estuche.",
@@ -48,7 +30,6 @@ const extendedMockProductsData = {
       isDiscounted: false,
     },
     {
-      id: 204,
       name: "Zapatillas Deportivas 'Dash' Negras",
       description:
         "Máximo confort y amortiguación. Perfectas para running o uso diario.",
@@ -64,7 +45,6 @@ const extendedMockProductsData = {
     },
     // Tecnología
     {
-      id: 205,
       name: "Smartwatch Fitness X Pro",
       description:
         "Monitor de ritmo cardíaco, GPS integrado y batería de 10 días.",
@@ -79,7 +59,6 @@ const extendedMockProductsData = {
       isDiscounted: false,
     },
     {
-      id: 206,
       name: "Teclado Mecánico RGB (Layout ES)",
       description:
         "Switches azules de alta respuesta y retroiluminación personalizable.",
@@ -94,7 +73,6 @@ const extendedMockProductsData = {
       isDiscounted: false,
     },
     {
-      id: 207,
       name: "Power Bank Ultra Rápida 20000mAh",
       description:
         "Carga dos dispositivos a la vez. Pantalla LED de estado de batería.",
@@ -109,7 +87,6 @@ const extendedMockProductsData = {
       oldPrice: 45.0,
     },
     {
-      id: 208,
       name: "Funda Silicona para Móvil Z-Fold",
       description:
         "Protección premium con tacto suave. Varios colores disponibles.",
@@ -124,7 +101,6 @@ const extendedMockProductsData = {
     },
     // Hogar y Decoración
     {
-      id: 209,
       name: "Set de Velas Aromáticas 'Zen'",
       description:
         "Tres velas de cera de soja con aromas a sándalo, lavanda y té verde.",
@@ -139,7 +115,6 @@ const extendedMockProductsData = {
       isDiscounted: false,
     },
     {
-      id: 210,
       name: "Manta de Pelo Sintético XL",
       description: "Suavidad inigualable para el sofá o la cama. 180x200 cm.",
       price: 49.99,
@@ -152,7 +127,6 @@ const extendedMockProductsData = {
       isDiscounted: false,
     },
     {
-      id: 211,
       name: "Difusor de Aromas Ultrasónico",
       description:
         "Silencioso, con luces LED de ambiente y apagado automático.",
@@ -168,7 +142,6 @@ const extendedMockProductsData = {
       oldPrice: 40.0,
     },
     {
-      id: 212,
       name: "Juego de Utensilios de Bambú (5 piezas)",
       description:
         "Alternativa ecológica y duradera para tu cocina. Diseño ergonómico.",
@@ -184,7 +157,6 @@ const extendedMockProductsData = {
     },
     // Productos de Belleza y Cuidado
     {
-      id: 213,
       name: "Crema Facial Hidratante de Noche",
       description: "Fórmula con ácido hialurónico y colágeno. Anti-edad.",
       price: 28.0,
@@ -198,7 +170,6 @@ const extendedMockProductsData = {
       isDiscounted: false,
     },
     {
-      id: 214,
       name: "Set de Brochas de Maquillaje Pro (12 pzas)",
       description: "Cerdas veganas ultra-suaves. Incluye estuche de viaje.",
       price: 45.99,
@@ -214,7 +185,6 @@ const extendedMockProductsData = {
     },
     // Libros y Ocio
     {
-      id: 215,
       name: "Novela 'El Secreto de la Fuente'",
       description: "Bestseller de misterio. 450 páginas de intriga.",
       price: 15.9,
@@ -228,7 +198,6 @@ const extendedMockProductsData = {
       isDiscounted: false,
     },
     {
-      id: 216,
       name: "Juego de Mesa 'Colonizadores Espaciales'",
       description: "Estrategia para 2-4 jugadores. Recomendado +12 años.",
       price: 35.5,
@@ -242,7 +211,6 @@ const extendedMockProductsData = {
     },
     // Varios / Complementos
     {
-      id: 217,
       name: "Botella Termo de Acero Inoxidable (750ml)",
       description:
         "Mantiene bebidas frías 24h y calientes 12h. Tapa antiderrame.",
@@ -256,7 +224,6 @@ const extendedMockProductsData = {
       isDiscounted: false,
     },
     {
-      id: 218,
       name: "Cargador Rápido de Pared USB-C (65W)",
       description:
         "Carga laptops y móviles a máxima velocidad. Diseño compacto.",
@@ -271,7 +238,6 @@ const extendedMockProductsData = {
       isDiscounted: false,
     },
     {
-      id: 219,
       name: "Sudadera Básica con Capucha Gris",
       description: "Un clásico atemporal. Algodón de alta calidad. Unisex.",
       price: 45.0,
@@ -284,7 +250,6 @@ const extendedMockProductsData = {
       isDiscounted: false,
     },
     {
-      id: 220,
       name: "Taza para Viaje con Aislamiento Térmico",
       description: "Perfecta para llevar. Capacidad de 400ml.",
       price: 19.99,

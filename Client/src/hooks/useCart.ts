@@ -33,14 +33,27 @@ export const useCart = () => {
         (item) => item.product.id === product.id
       );
 
+      // No permitir agregar si no hay stock
+      if (product.stock <= 0) {
+        return prevCart;
+      }
+
       if (existingItem) {
+        const desired = existingItem.quantity + quantity;
+        const clamped = Math.min(desired, product.stock);
+        // Si ya está al máximo, no cambiar
+        if (clamped === existingItem.quantity) {
+          return prevCart;
+        }
         return prevCart.map((item) =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
+          item.product.id === product.id ? { ...item, quantity: clamped } : item
         );
       } else {
-        return [...prevCart, { product, quantity }];
+        const initialQty = Math.min(quantity, product.stock);
+        if (initialQty <= 0) {
+          return prevCart;
+        }
+        return [...prevCart, { product, quantity: initialQty }];
       }
     });
   };
@@ -79,6 +92,11 @@ export const useCart = () => {
     0
   );
 
+  // Validación para checkout: todos los items deben tener stock suficiente
+  const canCheckout = cart.every(
+    (item) => item.product.stock > 0 && item.quantity <= item.product.stock
+  );
+
   return {
     cart,
     addItem,
@@ -87,5 +105,6 @@ export const useCart = () => {
     clearCart,
     totalItems,
     totalPrice,
+    canCheckout,
   };
 };

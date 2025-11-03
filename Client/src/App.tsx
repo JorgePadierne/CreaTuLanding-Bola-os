@@ -7,6 +7,7 @@ import Cart from "./components/cart/Cart";
 import NotFound from "./components/pages/NotFound";
 import Products from "./components/pages/Products";
 import { CartProvider } from "./context/CartContext";
+import Checkout from "./components/pages/Checkout";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/product/:productId" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </BrowserRouter>
     </CartProvider>

@@ -1,8 +1,9 @@
 import { useCartContext } from "../../hooks/useCartContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Cart() {
-  const { cart, addItem, removeItem, removeProduct, clearCart, totalPrice } =
+  const navigate = useNavigate();
+  const { cart, addItem, removeItem, removeProduct, clearCart, totalPrice, canCheckout } =
     useCartContext();
 
   if (cart.length === 0) {
@@ -124,12 +125,24 @@ function Cart() {
                         </svg>
                       </button>
                       <span className="text-lg font-medium text-gray-900 w-8 text-center">
-                        {item.quantity}
+                        {item.product.stock !== 0
+                          ? item.quantity
+                          : "Este item no tiene stock"}
                       </span>
                       <button
                         onClick={() => addItem(item.product, 1)}
-                        className="w-8 h-8 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white flex items-center justify-center transition-colors"
+                        disabled={item.quantity >= item.product.stock}
+                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+                          item.quantity >= item.product.stock
+                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                            : "bg-indigo-600 hover:bg-indigo-700 text-white"
+                        }`}
                         aria-label="Aumentar cantidad"
+                        title={
+                          item.quantity >= item.product.stock
+                            ? "No hay más stock disponible"
+                            : undefined
+                        }
                       >
                         <svg
                           className="w-4 h-4"
@@ -153,6 +166,14 @@ function Cart() {
                       <p className="text-sm text-gray-500">
                         ${item.product.price.toFixed(2)} c/u
                       </p>
+                      {item.product.stock === 0 && (
+                        <p className="text-sm text-red-600 mt-1">Sin stock</p>
+                      )}
+                      {item.quantity > item.product.stock && (
+                        <p className="text-sm text-red-600 mt-1">
+                          Cantidad supera el stock disponible
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -182,7 +203,16 @@ function Cart() {
                 </div>
               </div>
 
-              <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition-colors mb-3 flex items-center justify-center gap-2">
+              <button
+                disabled={!canCheckout}
+                className={`w-full font-semibold py-3 rounded-lg transition-colors mb-3 flex items-center justify-center gap-2 ${
+                  canCheckout
+                    ? "bg-indigo-600 hover:bg-indigo-700 text-white"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
+                title={!canCheckout ? "Revisa items sin stock o cantidad inválida" : undefined}
+                onClick={() => canCheckout && navigate("/checkout")}
+              >
                 <svg
                   className="w-5 h-5"
                   fill="none"
@@ -198,6 +228,12 @@ function Cart() {
                 </svg>
                 Proceder al Pago
               </button>
+
+              {!canCheckout && (
+                <p className="text-sm text-red-600 mb-3">
+                  No puedes continuar: hay productos sin stock o cantidades que superan el stock.
+                </p>
+              )}
 
               <button
                 onClick={clearCart}
